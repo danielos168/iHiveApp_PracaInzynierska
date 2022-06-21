@@ -1,0 +1,49 @@
+﻿@inherits LayoutComponentBase
+<body>
+<MudThemeProvider />
+<MudLayout>
+    <MudAppBar Elevation="1" Style="@($"background:{Colors.Amber.Accent3}")">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Edge="Edge.End" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="4" Style="@($"background:{Colors.Amber.Accent3}")">
+        <MudDrawerHeader Style="@($"background:{Colors.Amber.Accent3}")">
+            <MudText Typo="Typo.h5" Class="mt-1" Style="@($"color:{Colors.Brown.Darken3}")">iHive</MudText>
+        </MudDrawerHeader>
+        <MudPaper Width="250px" Class="d-inline-flex py-3" Elevation="3" Style="@($"background:{Colors.Amber.Accent2}")">
+            <MudNavMenu Class="mud-width-full" Rounded="true" Margin="Margin.Normal" Style="@($"background:{Colors.Amber.Accent2}; color:{Colors.Brown.Darken3}")">
+                <MudText Typo="Typo.h6" Class="px-4">Menu</MudText>
+                <MudDivider />
+                <MudNavLink Style="@($"color:{Colors.Brown.Darken3}")" Href="/" Icon="@Icons.Filled.Dashboard">Strona Główna</MudNavLink>
+                <MudNavLink Style="@($"color:{Colors.Brown.Darken3}")" Href="/map" Icon="@Icons.Filled.Map">Mapa</MudNavLink>
+                <MudNavLink Style="@($"color:{Colors.Brown.Darken3}")" Href="/billing" Icon="@Icons.Filled.Money">Finanse</MudNavLink>
+                <MudNavGroup Style="@($"color:{Colors.Brown.Darken3}")" Title="Pasieka" Icon="@Icons.Filled.Hive" Expanded="true">
+                    <MudNavLink Href="/Apiary" Icon="@Icons.Filled.Warehouse" Style="@($"color:{Colors.Brown.Darken3}")" IconColor="Color.Success">Twoja Pasieka</MudNavLink>
+                    <MudNavLink Href="/Planner" Icon="@Icons.Filled.CalendarMonth" Style="@($"color:{Colors.Brown.Darken3}")" IconColor="Color.Info">Planer</MudNavLink>
+                    <MudNavLink Href="/Overview" Icon="@Icons.Filled.NextPlan" Style="@($"color:{Colors.Brown.Darken3}")" IconColor="Color.Success">Przeglądy</MudNavLink>
+                    <MudNavLink Href="/Tasks" Icon="@Icons.Filled.Task" Style="@($"color:{Colors.Brown.Darken3}")" IconColor="Color.Info">Zadania</MudNavLink>
+                </MudNavGroup>
+            </MudNavMenu>
+        </MudPaper>
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Large">
+            @Body
+            </MudContainer>
+
+    </MudMainContent>
+</MudLayout>
+    </body>
+@code {
+    public bool _drawerOpen { get; set; } = false;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />

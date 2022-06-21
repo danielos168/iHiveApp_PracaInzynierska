@@ -1,0 +1,237 @@
+﻿@page "/Apiary"
+@inject NavigationManager NavigationManager
+@inject Radzen.DialogService DialogService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject Blazored.LocalStorage.ISyncLocalStorageService localStoragesync
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using Newtonsoft.Json
+
+<PageTitle>Twoja Pasieka</PageTitle>
+
+<MudTabs Centered="true" Elevation="4" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6" Style="@($"background:{Colors.Amber.Accent3}")">
+    <MudTabPanel Text="Dodaj Ul">
+        <MudGrid Style="align-content: center">
+            <MudItem xs="12" sm="14">
+                <MudPaper Class="pa-4">
+                    <MudForm>
+                        <MudTextField T="string" Label="Nazwa Ula" Required="false" RequiredError="Nazwa Ula!" @bind-Text="@Nazwa"/>
+                        <br>
+                        <h6> Kolor Matki </h6>
+                        <MudRadioGroup Style="align-items:center" T="string" Required="false" @bind-SelectedOption="@Kolor_matki">
+                            <MudRadio Style="@($"color:{Colors.Shades.White}")" Option="@("Biały")" >Biały</MudRadio>
+                            <MudRadio Style="@($"color:{Colors.Yellow.Darken1}")" Option="@("Żółty")">Zółty</MudRadio>
+                            <MudRadio Style="@($"color:{Colors.Red.Darken1}")" Option="@("Czerwony")">Czerwony</MudRadio>
+                            <MudRadio Style="@($"color:{Colors.Green.Darken1}")" Option="@("Zielony")">Zielony</MudRadio>
+                            <MudRadio Style="@($"color:{Colors.Blue.Darken1}")" Option="@("Niebieski")">Niebieski</MudRadio>
+                        </MudRadioGroup>
+                        <select class="form-control d-flex" style="height:50px" @bind="@Ilosc_Ramek">
+                            <option value="" disabled selected>Wybierz liczbę ramek</option>
+                            @for (int i = 0; i <= 100; i++)
+                            {
+                                <option value=@i>@i</option>
+                            }
+                        </select>
+                            <select placeholder="Wybierz Gatunek" class="form-control d-flex" style="height:50px" title="Gatunek pszczół" itemid="null" @bind="@Wybrany_gatunek">
+                                <option value="" disabled selected>Wybierz gatunek pszczół</option>
+                                @foreach (var item in Gatunki)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </select>
+                            <select placeholder="Wybierz Linię Hodowlaną" class="form-control d-flex" style="height:50px" title="Linia Hodowlana" @bind="@Rasa_Pszczol1">
+                                @switch (Wybrany_gatunek)
+                                {
+                                    case "Rasa Środkowoeuropejska":
+                                        @foreach (var item in Rasa1)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                        break;
+                                    case "Rasa Kaukaska":
+                                        @foreach (var item in Rasa2)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                        break;
+                                    case "Rasa Kraińska":
+                                        @foreach (var item in Rasa3)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                        break;
+                                    case "Rasa Buckfast":
+                                        @foreach (var item in Rasa4)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            </select>
+                        <h6> Wybierz kolor ula</h6>
+                        <input type="color" style="height:50px; width:60px" @bind-value="@Kolor_ula"/>
+                        <div class="d-flex align-center justify-space-between mt-6">
+                            <MudTextField T="string" Label="Opis Ula" Required="false" @bind-Text="@Opis"/>
+                        </div>
+                    </MudForm>
+                </MudPaper>
+                <MudPaper Class="pa-4 mt-4">
+                    <div class="d-flex align-center justify-space-between mt-6">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick=@Submit Class="mx-2">Dodaj ul</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Class="mx-2">Resetuj</MudButton>
+                        </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+    <MudTabPanel Text="Dodaj Pasiekę">
+        <MudGrid Style="align-content: center">
+            <MudItem xs="12" sm="14">
+                <MudPaper Class="pa-4">
+                     <MudForm>
+                         <MudTextField T="string" Label="Nazwa Pasieki" Required="false" RequiredError="Nazwa Pasieki!" @bind-Text="@Nazwa_Pasieki"/>
+                         <br />
+                         <RadzenGoogleMap Style="height:600px" Center=@(new GoogleMapPosition() {Lat = 52.161645, Lng = 21.046663})>
+                             <Markers>
+                                 <RadzenGoogleMapMarker Title="SGGW" Position=@(new GoogleMapPosition() {Lat = 52.161645, Lng = 21.046663})></RadzenGoogleMapMarker>
+                             </Markers>
+                         </RadzenGoogleMap>
+                     </MudForm>
+                </MudPaper>
+                <MudPaper Class="pa-4 mt-4">
+                    <div class="d-flex align-center justify-space-between mt-6">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick=@Submit_Pasieka Class="mx-2">Dodaj Pasiekę</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Class="mx-2">Resetuj</MudButton>
+                        </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+</MudTabs>
+<MatDialog @bind-IsOpen=@IsOpen>
+    <MatDialogTitle>Sukces</MatDialogTitle>
+    <MatDialogContent>
+        <MudText>Udało się pomyślnie utworzyć Ul</MudText>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@OKClick">Ok</MatButton>
+    </MatDialogActions>
+</MatDialog>
+<MatDialog @bind-IsOpen=@IsOpen2>
+    <MatDialogTitle>Sukces</MatDialogTitle>
+    <MatDialogContent>
+        <MudText>Udało się pomyślnie utworzyć Pasiekę</MudText>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@OKClick">Ok</MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+
+@code {
+    public string[] Gatunki =
+        {
+            "Rasa Środkowoeuropejska",
+            "Rasa Kaukaska",
+            "Rasa Kraińska",
+            "Rasa Buckfast"
+    };
+    public string[] Rasa1 =
+        {
+            "Asta",
+            "Kampinowska",
+            "Północna",
+            "Norweska",
+            "Inna"
+    }; 
+    public string[] Rasa2 =
+    {
+            "KBrz",
+            "Woźnica",
+            "KPW",
+            "Pb",
+            "PwK",
+            "W",
+            "M",
+            "KP",
+            "Puławska",
+            "Inna"
+    };
+    public string[] Rasa3 =
+    {
+            "Podgórska",
+            "Beskidka",
+            "Dobra",
+            "Kujawska",
+            "Kortówka",
+            "Alpejka",
+            "Inna"
+    };
+    public string[] Rasa4 =
+    {
+            "Denmark",
+            "Inna"
+    };
+    public string? Wybrany_gatunek { get; set; }
+    private void ItemUpdated(MudItemDropInfo<DropItem> dropItem)
+    {
+        dropItem.Item.Identifier = dropItem.DropzoneIdentifier;
+    }
+    private void CloseMe(bool value)
+    {
+        IsOpen = false;
+    }
+    private List<DropItem> _items = new()
+    {
+        new DropItem() { Name = "Drag me!", Identifier = "Drop Zone 1" },
+        new DropItem() { Name = "Or me!", Identifier = "Drop Zone 2" },
+        new DropItem() { Name = "Just Mud", Identifier = "Drop Zone 1" },
+    };
+
+    public class DropItem
+    {
+        public string Name { get; init; }
+        public string Identifier { get; set; }
+    }
+    void Refresh_Linia()
+    {
+    }
+    void OnChange(object value)
+    {
+        var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
+    }
+    #region Ul
+    public bool IsOpen = false;
+    public string? Nazwa { get; set; }
+    public string? Kolor_ula { get; set; } = "#fabb00";
+    public string? Kolor_matki { get; set; }
+    public int Ilosc_Ramek { get; set; }
+    public string? Rasa_Pszczol1 { get; set; }
+    public string? Opis { get; set; }
+    protected async Task Submit()
+    {
+        Ul nowyUl = new(Nazwa, Kolor_ula, Ilosc_Ramek, Wybrany_gatunek + Rasa_Pszczol1, DateTime.Now, DateTime.Now, DateTime.Now, Kolor_matki, Opis);
+        string json = nowyUl.JsonSerialize();
+        await localStorage.SetItemAsync<string>(String.Format("Ul" + Nazwa), json);
+        IsOpen = true;
+    }
+    private void OKClick()
+    {
+        IsOpen = false;
+        IsOpen2 = false;
+    }
+    #endregion
+    #region Pasieka
+    public bool IsOpen2 = false;
+    public string? Nazwa_Pasieki { get; set; }
+    protected async Task Submit_Pasieka()
+    {
+        Pasieka nowaPasieka = new(Nazwa_Pasieki, 52.161645, 21.046663, DateTime.Now);
+        string json = nowaPasieka.JsonSerialize();
+        await localStorage.SetItemAsync<string>(String.Format("Pasieka" + Nazwa_Pasieki), json);
+        IsOpen2 = true;
+    }
+    #endregion
+}
