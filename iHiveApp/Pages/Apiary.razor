@@ -6,6 +6,7 @@
 @using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
 @using Newtonsoft.Json
+@inject NavigationManager _navigationManager
 
 <PageTitle>Twoja Pasieka</PageTitle>
 
@@ -15,11 +16,11 @@
             <MudItem xs="12" sm="14">
                 <MudPaper Class="pa-4">
                     <MudForm>
-                        <MudTextField T="string" Label="Nazwa Ula" Required="false" RequiredError="Nazwa Ula!" @bind-Text="@Nazwa"/>
+                        <MudTextField T="string" Label="Nazwa Ula" Required="false" RequiredError="Nazwa Ula!" @bind-Text="@Nazwa" />
                         <br>
                         <h6> Kolor Matki </h6>
                         <MudRadioGroup Style="align-items:center" T="string" Required="false" @bind-SelectedOption="@Kolor_matki">
-                            <MudRadio Style="@($"color:{Colors.Shades.White}")" Option="@("Biały")" >Biały</MudRadio>
+                            <MudRadio Style="@($"color:{Colors.Shades.White}")" Option="@("Biały")">Biały</MudRadio>
                             <MudRadio Style="@($"color:{Colors.Yellow.Darken1}")" Option="@("Żółty")">Zółty</MudRadio>
                             <MudRadio Style="@($"color:{Colors.Red.Darken1}")" Option="@("Czerwony")">Czerwony</MudRadio>
                             <MudRadio Style="@($"color:{Colors.Green.Darken1}")" Option="@("Zielony")">Zielony</MudRadio>
@@ -32,48 +33,48 @@
                                 <option value=@i>@i</option>
                             }
                         </select>
-                            <select placeholder="Wybierz Gatunek" class="form-control d-flex" style="height:50px" title="Gatunek pszczół" itemid="null" @bind="@Wybrany_gatunek">
-                                <option value="" disabled selected>Wybierz gatunek pszczół</option>
-                                @foreach (var item in Gatunki)
-                                {
-                                    <option value="@item">@item</option>
-                                }
-                            </select>
-                            <select placeholder="Wybierz Linię Hodowlaną" class="form-control d-flex" style="height:50px" title="Linia Hodowlana" @bind="@Rasa_Pszczol1">
-                                @switch (Wybrany_gatunek)
-                                {
-                                    case "Rasa Środkowoeuropejska":
-                                        @foreach (var item in Rasa1)
-                                        {
-                                            <option value="@item">@item</option>
-                                        }
-                                        break;
-                                    case "Rasa Kaukaska":
-                                        @foreach (var item in Rasa2)
-                                        {
-                                            <option value="@item">@item</option>
-                                        }
-                                        break;
-                                    case "Rasa Kraińska":
-                                        @foreach (var item in Rasa3)
-                                        {
-                                            <option value="@item">@item</option>
-                                        }
-                                        break;
-                                    case "Rasa Buckfast":
-                                        @foreach (var item in Rasa4)
-                                        {
-                                            <option value="@item">@item</option>
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            </select>
+                        <select placeholder="Wybierz Gatunek" class="form-control d-flex" style="height:50px" title="Gatunek pszczół" itemid="null" @bind="@Wybrany_gatunek">
+                            <option value="" disabled selected>Wybierz gatunek pszczół</option>
+                            @foreach (var item in Gatunki)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        </select>
+                        <select placeholder="Wybierz Linię Hodowlaną" class="form-control d-flex" style="height:50px" title="Linia Hodowlana" @bind="@Rasa_Pszczol1">
+                            @switch (Wybrany_gatunek)
+                            {
+                                case "Rasa Środkowoeuropejska":
+                                    @foreach (var item in Rasa1)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                    break;
+                                case "Rasa Kaukaska":
+                                    @foreach (var item in Rasa2)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                    break;
+                                case "Rasa Kraińska":
+                                    @foreach (var item in Rasa3)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                    break;
+                                case "Rasa Buckfast":
+                                    @foreach (var item in Rasa4)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        </select>
                         <h6> Wybierz kolor ula</h6>
-                        <input type="color" style="height:50px; width:60px" @bind-value="@Kolor_ula"/>
+                        <input type="color" style="height:50px; width:60px" @bind-value="@Kolor_ula" />
                         <div class="d-flex align-center justify-space-between mt-6">
-                            <MudTextField T="string" Label="Opis Ula" Required="false" @bind-Text="@Opis"/>
+                            <MudTextField T="string" Label="Opis Ula" Required="false" @bind-Text="@Opis" />
                         </div>
                     </MudForm>
                 </MudPaper>
@@ -81,7 +82,7 @@
                     <div class="d-flex align-center justify-space-between mt-6">
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick=@Submit Class="mx-2">Dodaj ul</MudButton>
                         <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Class="mx-2">Resetuj</MudButton>
-                        </div>
+                    </div>
                 </MudPaper>
             </MudItem>
         </MudGrid>
@@ -90,21 +91,76 @@
         <MudGrid Style="align-content: center">
             <MudItem xs="12" sm="14">
                 <MudPaper Class="pa-4">
-                     <MudForm>
-                         <MudTextField T="string" Label="Nazwa Pasieki" Required="false" RequiredError="Nazwa Pasieki!" @bind-Text="@Nazwa_Pasieki"/>
-                         <br />
-                         <RadzenGoogleMap Style="height:600px" Center=@(new GoogleMapPosition() {Lat = 52.161645, Lng = 21.046663})>
-                             <Markers>
-                                 <RadzenGoogleMapMarker Title="SGGW" Position=@(new GoogleMapPosition() {Lat = 52.161645, Lng = 21.046663})></RadzenGoogleMapMarker>
-                             </Markers>
-                         </RadzenGoogleMap>
-                     </MudForm>
+                    <MudForm>
+                        <MudTextField T="string" Label="Nazwa Pasieki" Required="false" RequiredError="Nazwa Pasieki!" @bind-Text="@Nazwa_Pasieki" />
+                        <br />
+                        <RadzenGoogleMap Style="height:600px" Center=@(new GoogleMapPosition() {Lat = 52.161645, Lng = 21.046663})>
+                            <Markers>
+                                <RadzenGoogleMapMarker Title="SGGW" Position=@(new GoogleMapPosition() {Lat = 52.161645, Lng = 21.046663})></RadzenGoogleMapMarker>
+                            </Markers>
+                        </RadzenGoogleMap>
+                    </MudForm>
                 </MudPaper>
                 <MudPaper Class="pa-4 mt-4">
                     <div class="d-flex align-center justify-space-between mt-6">
                         <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick=@Submit_Pasieka Class="mx-2">Dodaj Pasiekę</MudButton>
                         <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Class="mx-2">Resetuj</MudButton>
-                        </div>
+                    </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+    <MudTabPanel Text="Przydziel Ule">
+        <MudGrid Style="align-content: center">
+            <MudItem xs="12" sm="14">
+                <MudPaper Class="pa-4">
+                    <MudDropContainer T="DropItem" Items="_items" ItemsSelector="@((item,dropzone) => item.Selector == dropzone)" ItemDropped="ItemUpdated" Class="d-flex flex-wrap flex-grow-1">
+                        <ChildContent>
+                                <MudPaper Class="ma-4 flex-grow-1">
+                                    <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
+                                        <MudListSubheader>Nieprzypisane</MudListSubheader>
+                                        <MudDropZone T="DropItem" Identifier="0" Class="flex-grow-1" />
+                                    </MudList>
+                                </MudPaper>
+                            @for (int i = 0; i < @Pasieki.Count; i++)
+                            {
+                                var dropzone = Pasieki[i];
+                                <MudPaper Class="ma-4 flex-grow-1">
+                                    <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
+                                        <MudListSubheader>@dropzone</MudListSubheader>
+                                        <MudDropZone T="DropItem" Identifier="@dropzone" Class="flex-grow-1" />
+                                    </MudList>
+                                </MudPaper>
+                            }
+                        </ChildContent>
+                        <ItemRenderer>
+                            <MudListItem Text="@context.Name" />
+                        </ItemRenderer>
+                    </MudDropContainer>
+                </MudPaper>
+                <MudPaper Class="pa-4 mt-4">
+                    <div class="d-flex align-center justify-space-between mt-6">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick=@Submit_Ustawienia Class="mx-2">Zatwierdź</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Class="mx-2" OnClick="@refreash">Odśwież</MudButton>
+                    </div>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudTabPanel>
+    <MudTabPanel Text="Usuń elementy">
+        <MudGrid Style="align-content: center">
+            <MudItem xs="12" sm="14">
+                <MudPaper Class="pa-4">
+                <RadzenDropDown @bind-Value="@Ul_usun" Style="width: 238px; align-self: center" Placeholder="Wybierz docelowy Ul" Data="@Ule" TValue="string" TextProperty="Wybierz docelowy ul"></RadzenDropDown>
+                </MudPaper>
+                <MudPaper Class="pa-4">
+                    <RadzenDropDown @bind-Value="@Pasieka_usun" Name="Pasieka_usun" Style="width: 238px; align-self: center" Placeholder="Wybierz docelową pasiekę" Data="@Pasieki" TValue="string" TextProperty="Wybierz docelową pasiekę"></RadzenDropDown>
+                </MudPaper>
+                <MudPaper Class="pa-4 mt-4">
+                    <div class="d-flex align-center justify-space-between mt-6">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@Submit_Usuwanie" Class="mx-2">Zatwierdź</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Class="mx-2" OnClick="@refreash">Odśwież</MudButton>
+                    </div>
                 </MudPaper>
             </MudItem>
         </MudGrid>
@@ -131,6 +187,9 @@
 
 
 @code {
+    string Ul_usun;
+    string Pasieka_usun;
+    private MudDropContainer<DropItem> drop_containter;
     public string[] Gatunki =
         {
             "Rasa Środkowoeuropejska",
@@ -145,7 +204,7 @@
             "Północna",
             "Norweska",
             "Inna"
-    }; 
+    };
     public string[] Rasa2 =
     {
             "KBrz",
@@ -175,25 +234,9 @@
             "Inna"
     };
     public string? Wybrany_gatunek { get; set; }
-    private void ItemUpdated(MudItemDropInfo<DropItem> dropItem)
-    {
-        dropItem.Item.Identifier = dropItem.DropzoneIdentifier;
-    }
     private void CloseMe(bool value)
     {
         IsOpen = false;
-    }
-    private List<DropItem> _items = new()
-    {
-        new DropItem() { Name = "Drag me!", Identifier = "Drop Zone 1" },
-        new DropItem() { Name = "Or me!", Identifier = "Drop Zone 2" },
-        new DropItem() { Name = "Just Mud", Identifier = "Drop Zone 1" },
-    };
-
-    public class DropItem
-    {
-        public string Name { get; init; }
-        public string Identifier { get; set; }
     }
     void Refresh_Linia()
     {
@@ -234,4 +277,115 @@
         IsOpen2 = true;
     }
     #endregion
+    #region Przydzielanie
+    public List<string> Ule = new();
+    public List<string>? Pasieki = new();
+    public List<Ul> listauli = new();
+    protected async Task Submit_Ustawienia()
+    {
+        new_items = _items;
+        var k = await localStorage.KeysAsync();
+        foreach (var item in k)
+        {
+            if (item[..2] == "Ul")
+            {
+                await localStorage.RemoveItemAsync(item);
+            }
+        }
+        foreach (Ul ul in listauli)
+        {
+            foreach (DropItem item in new_items)
+            {
+                if (item.Name == ul.Nazwa && item.Selector != "0")
+                {
+                    ul.Pasieka = item.Selector;
+                }
+            }
+            string json = ul.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format("Ul" + ul.Nazwa), json);
+        }
+    }
+    protected async Task Load()
+    {
+        var k = await localStorage.KeysAsync();
+        listauli.Clear();
+        foreach (var item in k)
+        {
+            if (item.Contains("Pasieka"))
+            {
+                if (!Pasieki.Contains(item.Replace("Pasieka", "")))
+                {
+                    Pasieki.Add(item.Replace("Pasieka", ""));
+                }
+                continue;
+            }
+            if (item.Contains("Ul"))
+            {
+                string t = await localStorage.GetItemAsync<string>(item);
+                listauli.Add(JsonConvert.DeserializeObject<Ul>(t) ?? new());
+                if (!Ule.Contains(item.Replace("Ul", "")))
+                {
+                    Ule.Add(item.Replace("Ul", ""));
+                }
+                continue;
+            }
+        }
+        foreach (Ul item in listauli)
+        {
+            DropItem t = new();
+            t.Name = item.Nazwa;
+            if (item.Pasieka is null || item.Pasieka == "" || !Pasieki.Contains(item.Pasieka))
+            {
+                t.Selector = "0";
+            }
+            else
+            {
+                t.Selector = item.Pasieka;
+            }
+            _items.Add(t);
+        }
+        refreash();
+    }
+    void refreash()
+    {
+        StateHasChanged();
+        _navigationManager.NavigateTo("Apiary");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+    }
+    private void ItemUpdated(MudItemDropInfo<DropItem> dropItem)
+    {
+        dropItem.Item.Selector = dropItem.DropzoneIdentifier;
+    }
+
+    private List<DropItem> _items = new()
+    {
+    };
+
+    private List<DropItem> new_items = new()
+    {
+    };
+
+    public class DropItem
+    { 
+        public string Name { get; set; }
+        public string Selector { get; set; }
+    }
+    #endregion
+
+    protected async Task Submit_Usuwanie()
+    {
+        var k = await localStorage.KeysAsync();
+        if (Pasieka_usun is not null)
+        {
+            await localStorage.RemoveItemAsync(String.Format("Pasieka{0}",Pasieka_usun));
+        }
+        if (Ul_usun is not null)
+        {
+            await localStorage.RemoveItemAsync(String.Format("Pasieka{0}",Ul_usun));
+        }
+    }
 }

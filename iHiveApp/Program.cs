@@ -1,9 +1,9 @@
+using Blazored.LocalStorage;
+using iHiveApp;
+using MatBlazor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using iHiveApp;
 using MudBlazor.Services;
-using MatBlazor;
-using Blazored.LocalStorage;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

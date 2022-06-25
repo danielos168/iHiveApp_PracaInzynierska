@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 namespace iHiveApp
 {
     public class Pasieka
@@ -9,6 +8,7 @@ namespace iHiveApp
         public double lokalizacjaY { get; set; }
         public List<Ul> lista_uli { get; set; }
         public DateTime data_zalozenia { get; }
+
         public Pasieka(string nazwa)
         {
             this.nazwa = nazwa;

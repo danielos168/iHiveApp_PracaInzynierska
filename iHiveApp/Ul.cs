@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 namespace iHiveApp
 {
     public class Ul
@@ -13,7 +12,11 @@ namespace iHiveApp
         public DateTime Ostatnia_wymiana_matki { get; set; } = DateTime.Now;
         public string Kolor_matki { get; set; }
         public string Opis { get; set; }
+        public string Pasieka { get; set; }
+        public Ul()
+        {
 
+        }
         public Ul(string Nazwa, string Kolor_ula)
         {
             this.Nazwa = Nazwa;
