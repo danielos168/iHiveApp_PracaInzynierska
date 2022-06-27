@@ -1,0 +1,40 @@
+﻿@page "/Map"
+@inject NavigationManager NavigationManager
+@inject Radzen.DialogService DialogService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject Blazored.LocalStorage.ISyncLocalStorageService localStoragesync
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using Newtonsoft.Json
+@inject NavigationManager _navigationManager
+
+<PageTitle>Mapa</PageTitle>
+        <RadzenGoogleMap id="map" Style="height:600px" Data="@Markers" Center=@(new GoogleMapPosition() {Lat = @lat, Lng = @lng})>
+        </RadzenGoogleMap>
+@code {
+    #region Pasieka
+    public double lat = 52.161645;
+    public double lng = 21.046663;
+    public List<Pasieka> Pasieki_lista = new();
+    List<RadzenGoogleMapMarker> Markers = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var k = await localStorage.KeysAsync();
+        foreach (var item in k)
+        {
+            if (item.Contains("Pasieka"))
+            {
+                string t = await localStorage.GetItemAsync<string>(item);
+                Pasieki_lista.Add(JsonConvert.DeserializeObject<Pasieka>(t) ?? new());
+            }
+        }
+        lat = Pasieki_lista[0].lokalizacjaX;
+        lng = Pasieki_lista[0].lokalizacjaY;
+        foreach (Pasieka item in Pasieki_lista)
+        {
+            Markers.Add(new RadzenGoogleMapMarker() { Position = new GoogleMapPosition() { Lat = item.lokalizacjaX, Lng = item.lokalizacjaY } });
+        }
+    }
+    #endregion
+}

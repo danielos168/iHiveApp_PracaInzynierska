@@ -87,17 +87,14 @@
             </MudItem>
         </MudGrid>
     </MudTabPanel>
-    <MudTabPanel Text="Dodaj Pasiekę">
+    <MudTabPanel Text="Dodaj Pasiekę" OnClick="@LoadMap">
         <MudGrid Style="align-content: center">
             <MudItem xs="12" sm="14">
                 <MudPaper Class="pa-4">
                     <MudForm>
                         <MudTextField T="string" Label="Nazwa Pasieki" Required="false" RequiredError="Nazwa Pasieki!" @bind-Text="@Nazwa_Pasieki" />
                         <br />
-                        <RadzenGoogleMap Style="height:600px" Center=@(new GoogleMapPosition() {Lat = 52.161645, Lng = 21.046663})>
-                            <Markers>
-                                <RadzenGoogleMapMarker Title="SGGW" Position=@(new GoogleMapPosition() {Lat = 52.161645, Lng = 21.046663})></RadzenGoogleMapMarker>
-                            </Markers>
+                        <RadzenGoogleMap id="map" MapClick="@OnMapClick" Style="height:600px" Data="@Markers" Center=@(new GoogleMapPosition() {Lat = @lat, Lng = @lng})>
                         </RadzenGoogleMap>
                     </MudForm>
                 </MudPaper>
@@ -114,7 +111,7 @@
         <MudGrid Style="align-content: center">
             <MudItem xs="12" sm="14">
                 <MudPaper Class="pa-4">
-                    <MudDropContainer T="DropItem" Items="_items" ItemsSelector="@((item,dropzone) => item.Selector == dropzone)" ItemDropped="ItemUpdated" Class="d-flex flex-wrap flex-grow-1">
+                    <MudDropContainer T="DropItem" Items="_items" data-bind="_items" ItemsSelector="@((item,dropzone) => item.Selector == dropzone)" ItemDropped="ItemUpdated" Class="d-flex flex-wrap flex-grow-1">
                         <ChildContent>
                                 <MudPaper Class="ma-4 flex-grow-1">
                                     <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
@@ -184,9 +181,27 @@
         <MatButton OnClick="@OKClick">Ok</MatButton>
     </MatDialogActions>
 </MatDialog>
-
+<MatDialog @bind-IsOpen=@IsOpen3>
+    <MatDialogTitle>Sukces</MatDialogTitle>
+    <MatDialogContent>
+        <MudText>Ustawienia zapisane</MudText>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@OKClick">Ok</MatButton>
+    </MatDialogActions>
+</MatDialog>
+<MatDialog @bind-IsOpen=@IsOpen4>
+    <MatDialogTitle>Sukces</MatDialogTitle>
+    <MatDialogContent>
+        <MudText>Udało się pomyślnie usunąć zaznaczone elementy</MudText>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@OKClick">Ok</MatButton>
+    </MatDialogActions>
+</MatDialog>
 
 @code {
+    #region Fields & Variables
     string Ul_usun;
     string Pasieka_usun;
     private MudDropContainer<DropItem> drop_containter;
@@ -241,10 +256,12 @@
     void Refresh_Linia()
     {
     }
+    #endregion
     void OnChange(object value)
     {
         var str = value is IEnumerable<object> ? string.Join(", ", (IEnumerable<object>)value) : value;
     }
+
     #region Ul
     public bool IsOpen = false;
     public string? Nazwa { get; set; }
@@ -264,20 +281,39 @@
     {
         IsOpen = false;
         IsOpen2 = false;
+        IsOpen3 = false;
+        IsOpen4 = false;
     }
     #endregion
     #region Pasieka
     public bool IsOpen2 = false;
+    public double lat = 52.161645;
+    public double lng = 21.046663;
     public string? Nazwa_Pasieki { get; set; }
+    public List<string> Pasieki_mapa = new();
+    public List<Pasieka> Pasieki_lista = new();
+    Radzen.GoogleMapPosition newPasieka = new();
+    List<RadzenGoogleMapMarker> Markers = new();
+    void OnMapClick(GoogleMapClickEventArgs args)
+    {
+        Markers.Clear();
+        Markers.Add( new RadzenGoogleMapMarker() { Position = new GoogleMapPosition() { Lat = args.Position.Lat, Lng = args.Position.Lng } });
+        lat = args.Position.Lat;
+        lng = args.Position.Lng;
+    }
+    protected async Task LoadMap()
+    {
+    }
     protected async Task Submit_Pasieka()
     {
-        Pasieka nowaPasieka = new(Nazwa_Pasieki, 52.161645, 21.046663, DateTime.Now);
+        Pasieka nowaPasieka = new(Nazwa_Pasieki, lat, lng, DateTime.Now);
         string json = nowaPasieka.JsonSerialize();
         await localStorage.SetItemAsync<string>(String.Format("Pasieka" + Nazwa_Pasieki), json);
         IsOpen2 = true;
     }
     #endregion
     #region Przydzielanie
+    public bool IsOpen3 = false;
     public List<string> Ule = new();
     public List<string>? Pasieki = new();
     public List<Ul> listauli = new();
@@ -304,6 +340,7 @@
             string json = ul.JsonSerialize();
             await localStorage.SetItemAsync<string>(String.Format("Ul" + ul.Nazwa), json);
         }
+        IsOpen3 = !IsOpen3;
     }
     protected async Task Load()
     {
@@ -349,7 +386,6 @@
     void refreash()
     {
         StateHasChanged();
-        _navigationManager.NavigateTo("Apiary");
     }
 
     protected override async Task OnInitializedAsync()
@@ -375,7 +411,8 @@
         public string Selector { get; set; }
     }
     #endregion
-
+    #region Usuwanie
+    public bool IsOpen4 = false;
     protected async Task Submit_Usuwanie()
     {
         var k = await localStorage.KeysAsync();
@@ -385,7 +422,9 @@
         }
         if (Ul_usun is not null)
         {
-            await localStorage.RemoveItemAsync(String.Format("Pasieka{0}",Ul_usun));
+            await localStorage.RemoveItemAsync(String.Format("Ul{0}",Ul_usun));
         }
+        IsOpen4 = !IsOpen4;
     }
+    #endregion
 }
