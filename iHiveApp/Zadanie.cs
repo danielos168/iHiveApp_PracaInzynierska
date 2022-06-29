@@ -3,25 +3,22 @@ namespace iHiveApp
 {
     public class Zadanie
     {
-        public DateTime data_zadania { get; set; } = DateTime.Now;
-        public Ul ul { get; set; }
+        public DateTime? data_zadania { get; set; } = DateTime.Now;
+        public string ul { get; set; }
         
-        public Pasieka pasieka { get; set; }
+        public string cel { get; set; }
 
         public string zadanie { get; set; }
 
-        public Zadanie(DateTime data_zadania, Pasieka pasieka, string zadanie)
+        public Zadanie(DateTime? data_zadania, string cel, string zadanie)
         {
             this.data_zadania = data_zadania;
-            this.pasieka = pasieka;
+            this.cel = cel;
             this.zadanie = zadanie;
         }
-
-        public Zadanie(DateTime data_zadania, Ul ul, string zadanie)
+        public string JsonSerialize()
         {
-            this.data_zadania = data_zadania;
-            this.ul = ul;
-            this.zadanie = zadanie;
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

@@ -8,12 +8,12 @@
             <MudCardMedia Image="/images/task1.jpeg" Height="200"/>
             <MudCardContent>
                 <MudText Typo="Typo.h5">Przegląd ula</MudText>
-                <RadzenDatePicker Style="width: 260px" TValue="DateTime?" Value="@DateTime.Now" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
-                <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelową pasiekę" Data="@Pasieki" TValue="string" TextProperty="Wybierz docelową pasiekę"></RadzenDropDown>
-                <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelowy Ul" Data="@Ule" TValue="string" TextProperty="Wybierz docelowy ul"></RadzenDropDown>
+                <RadzenDatePicker Style="width: 260px" TValue="DateTime?" Value="@data_zadania" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+                <RadzenDropDown @bind-Value="@pasieka" Change="@Changed_pasieka" Style="width: 238px" Placeholder="Wybierz docelową pasiekę" Data="@Pasieki" TValue="string" TextProperty="Wybierz docelową pasiekę"></RadzenDropDown>
+                <RadzenDropDown @bind-Value="@ul" Change="@Changed_ul" Style="width: 238px" Placeholder="Wybierz docelowy Ul" Data="@Ule" TValue="string" TextProperty="Wybierz docelowy ul"></RadzenDropDown>
             </MudCardContent>
             <MudCardActions>
-                <MudButton Variant="Variant.Text" Color="Color.Primary">Dodaj</MudButton>
+                <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@Przeglad">Dodaj</MudButton>
             </MudCardActions>
         </MudCard>
     </MudItem>
@@ -22,60 +22,70 @@
             <MudCardMedia Image="/images/task2.jpeg" Height="200" />
             <MudCardContent>
                 <MudText Typo="Typo.h5">Wymiana ramek</MudText>
-                <RadzenDatePicker TValue="DateTime?" Value="@DateTime.Now" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+                <RadzenDatePicker TValue="DateTime?" Value="@data_zadania" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
                 <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelową pasiekę" Data="@Pasieki" TValue="string" TextProperty="Wybierz docelową pasiekę"></RadzenDropDown>
                 <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelowy Ul" Data="@Ule" TValue="string" TextProperty="Wybierz docelowy ul"></RadzenDropDown>
             </MudCardContent>
             <MudCardActions>
-                <MudButton Variant="Variant.Text" Color="Color.Primary">Dodaj</MudButton>
+                <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@Wymiana_Ramek">Dodaj</MudButton>
             </MudCardActions>
         </MudCard>
     </MudItem>
     <MudItem>
         <MudCard Style="width: 270px">
-            <MudCardMedia Image="/images/task2.jpeg" Height="200" />
+            <MudCardMedia Image="/images/task3.jpg" Height="200" />
             <MudCardContent>
                 <MudText Typo="Typo.h5">Karmienie</MudText>
-                <RadzenDatePicker TValue="DateTime?" Value="@DateTime.Now" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+                <RadzenDatePicker TValue="DateTime?" Value="@data_zadania" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
                 <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelową pasiekę" Data="@Pasieki" TValue="string" TextProperty="Wybierz docelową pasiekę"></RadzenDropDown>
                 <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelowy Ul" Data="@Ule" TValue="string" TextProperty="Wybierz docelowy ul"></RadzenDropDown>
             </MudCardContent>
             <MudCardActions>
-                <MudButton Variant="Variant.Text" Color="Color.Primary">Dodaj</MudButton>
+                <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@Karmienie">Dodaj</MudButton>
             </MudCardActions>
         </MudCard>
     </MudItem>
     <MudItem>
         <MudCard Style="width: 270px">
-            <MudCardMedia Image="/images/task2.jpeg" Height="200" />
+            <MudCardMedia Image="/images/task4.jpg" Height="200" />
             <MudCardContent>
                 <MudText Typo="Typo.h5">Wymiana matki</MudText>
-                <RadzenDatePicker TValue="DateTime?" Value="@DateTime.Now" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+                <RadzenDatePicker TValue="DateTime?" Value="@data_zadania" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
                 <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelową pasiekę" Data="@Pasieki" TValue="string" TextProperty="Wybierz docelową pasiekę"></RadzenDropDown>
                 <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelowy Ul" Data="@Ule" TValue="string" TextProperty="Wybierz docelowy ul"></RadzenDropDown>
             </MudCardContent>
             <MudCardActions>
-                <MudButton Variant="Variant.Text" Color="Color.Primary">Dodaj</MudButton>
+                <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@Matka">Dodaj</MudButton>
             </MudCardActions>
         </MudCard>
     </MudItem>
     <MudItem>
         <MudCard Style="width: 270px">
-            <MudCardMedia Image="/images/task2.jpeg" Height="200" />
+            <MudCardMedia Image="/images/task5.jpg" Height="200" />
             <MudCardContent>
                 <MudText Typo="Typo.h5">Miodobranie</MudText>
-                <RadzenDatePicker TValue="DateTime?" Value="@DateTime.Now" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+                <RadzenDatePicker TValue="DateTime?" Value="@data_zadania" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
                 <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelową pasiekę" Data="@Pasieki" TValue="string" TextProperty="Wybierz docelową pasiekę"></RadzenDropDown>
                 <RadzenDropDown Style="width: 238px" Placeholder="Wybierz docelowy Ul" Data="@Ule" TValue="string" TextProperty="Wybierz docelowy ul"></RadzenDropDown>
             </MudCardContent>
             <MudCardActions>
-                <MudButton Variant="Variant.Text" Color="Color.Primary">Dodaj</MudButton>
+                <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@Miodobranie">Dodaj</MudButton>
             </MudCardActions>
         </MudCard>
     </MudItem>
 </MudGrid>
-
+<MatDialog @bind-IsOpen=@IsOpen>
+    <MatDialogTitle>Sukces</MatDialogTitle>
+    <MatDialogContent>
+        <MudText>Udało się pomyślnie usunąć zaznaczone elementy</MudText>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@OKClick">Ok</MatButton>
+    </MatDialogActions>
+</MatDialog>
 @code {
+    public bool IsOpen = false;
+    public DateTime? data_zadania;
     protected override async Task OnInitializedAsync()
     {
         var k = await localStorage.KeysAsync();
@@ -96,9 +106,106 @@
     const int spacing = 5;
     List<string> Pasieki = new();
     List<string> Ule = new();
+    string pasieka;
+    string ul;
     void OnChange(DateTime? value, string name, string format)
     {
+        data_zadania = value;
+    }
+    void Changed_pasieka()
+    {
+        ul = null;
+    }
+    void Changed_ul()
+    {
+        pasieka = null;
+    }
+    void OKClick()
+    {
+        IsOpen = false;
+    }
+    async Task Miodobranie()
+    {
+        if (ul is not null)
+        {
+            Zadanie zadanie = new(data_zadania, ul, "Miodobranie"); 
+            string json = zadanie.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Miodobranie"), json);
+        }
+        else
+        {
+            Zadanie zadanie = new(data_zadania, pasieka, "Miodobranie"); 
+            string json = zadanie.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Miodobranie"), json);
+        }
+        IsOpen = true;
     }
 
+    async Task Matka()
+    {
+        if (ul is not null)
+        {
+            Zadanie zadanie = new(data_zadania, ul, "Matka"); 
+            string json = zadanie.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Matka"), json);
+        }
+        else
+        {
+            Zadanie zadanie = new(data_zadania, pasieka, "Matka"); 
+            string json = zadanie.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Matka"), json);
+        }
+        IsOpen = true;
+    }
 
+    async Task Karmienie()
+    {
+        if (ul is not null)
+        {
+            Zadanie zadanie = new(data_zadania, ul, "Karmienie"); 
+            string json = zadanie.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Karmienie"), json);
+        }
+        else
+        {
+            Zadanie zadanie = new(data_zadania, pasieka, "Karmienie"); 
+            string json = zadanie.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Karmienie"), json);
+        }
+        IsOpen = true;
+    }
+
+    async Task Wymiana_Ramek()
+    {
+        if (ul is not null)
+        {
+            Zadanie zadanie = new(data_zadania, ul, "Wymiana"); 
+            string json = zadanie.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Wymiana"), json);
+        }
+        else
+        {
+            Zadanie zadanie = new(data_zadania, pasieka, "Wymiana"); 
+            string json = zadanie.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Wymiana"), json);
+        }
+        IsOpen = true;
+    }
+
+    async Task Przeglad()
+    {
+        if (ul is not null)
+        {
+            Zadanie zadanie = new(data_zadania, ul, "Przegląd"); 
+            string json = zadanie.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Przegląd"), json);
+        }
+        else
+        {
+            Zadanie zadanie = new(data_zadania, pasieka, "Przegląd"); 
+            string json = zadanie.JsonSerialize();
+            await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Przegląd"), json);
+        }
+        IsOpen = true;
+    }
 }

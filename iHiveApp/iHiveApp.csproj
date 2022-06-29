@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\task3.jpg" />
+    <Content Remove="wwwroot\images\task4.jpg" />
+    <Content Remove="wwwroot\images\task5.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
     <PackageReference Include="MatBlazor" Version="2.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.5" />
@@ -24,6 +30,12 @@
 
   <ItemGroup>
     <Folder Include="Klasy\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\images\task3.jpg" />
+    <Resource Include="wwwroot\images\task4.jpg" />
+    <Resource Include="wwwroot\images\task5.jpg" />
   </ItemGroup>
 
 </Project>
