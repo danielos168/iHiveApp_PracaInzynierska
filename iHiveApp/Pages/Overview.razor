@@ -1,0 +1,30 @@
+﻿@page "/Overview"
+@inject NavigationManager NavigationManager
+@inject Radzen.DialogService DialogService
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject Blazored.LocalStorage.ISyncLocalStorageService localStoragesync
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using Newtonsoft.Json
+@inject NavigationManager _navigationManager
+
+<PageTitle>Przegląd</PageTitle>
+
+<MatDialog @bind-IsOpen=@IsOpen>
+    <MatDialogTitle>Sukces</MatDialogTitle>
+    <MatDialogContent>
+        <MudText>Udało się pomyślnie utworzyć Ul</MudText>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@OKClick">Ok</MatButton>
+    </MatDialogActions>
+</MatDialog>
+@code {
+    public bool IsOpen { get; set; } = false;
+    private void OKClick()
+    {
+        IsOpen = false;
+
+        //Tu dodam przegląd
+    }
+}

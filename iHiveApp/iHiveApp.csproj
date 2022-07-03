@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
+	<RunAOTCompilation>true</RunAOTCompilation>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -18,6 +19,7 @@
     <PackageReference Include="MatBlazor" Version="2.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.5" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Sdk.BlazorWebAssembly.AOT" Version="6.0.0-preview.5.21301.17" />
     <PackageReference Include="MudBlazor" Version="6.0.10" />
     <PackageReference Include="MudBlazor.ThemeManager" Version="1.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

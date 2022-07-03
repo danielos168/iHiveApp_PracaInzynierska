@@ -17,7 +17,6 @@
                 <MudDivider />
                 <MudNavLink Style="@($"color:{Colors.Brown.Darken3}")" Href="/" Icon="@Icons.Filled.Dashboard">Strona Główna</MudNavLink>
                 <MudNavLink Style="@($"color:{Colors.Brown.Darken3}")" Href="/Map" Icon="@Icons.Filled.Map">Mapa</MudNavLink>
-                <MudNavLink Style="@($"color:{Colors.Brown.Darken3}")" Href="/billing" Icon="@Icons.Filled.Money">Finanse</MudNavLink>
                 <MudNavGroup Style="@($"color:{Colors.Brown.Darken3}")" Title="Pasieka" Icon="@Icons.Filled.Hive" Expanded="true">
                     <MudNavLink Href="/Apiary" Icon="@Icons.Filled.Warehouse" Style="@($"color:{Colors.Brown.Darken3}")" IconColor="Color.Success">Twoja Pasieka</MudNavLink>
                     <MudNavLink Href="/Planner" Icon="@Icons.Filled.CalendarMonth" Style="@($"color:{Colors.Brown.Darken3}")" IconColor="Color.Info">Planer</MudNavLink>
@@ -26,7 +25,7 @@
                 </MudNavGroup>
             </MudNavMenu>
         </MudPaper>
-    </MudDrawer>
+    </MudDrawer> 
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.Large">
             @Body
