@@ -6,25 +6,282 @@
 @using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
 @using Newtonsoft.Json
+@using System.Data;
 @inject NavigationManager _navigationManager
 
-<PageTitle>Przegląd</PageTitle>
+
+
+    <RadzenDataGrid @ref=@datagrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true"
+    PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+        Data="@elements" TItem="Przeglad" LogicalFilterOperator="LogicalFilterOperator.Or" ColumnWidth="500px">
+        <Columns>
+            <RadzenDataGridColumn TItem="Przeglad" Property="data_przegladu" Filterable="true" Title="ID" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Ile_ramek_miod" Filterable="true" Title="Ile_ramek_miod" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Ile_miodu" Filterable="true" Title="Ile_miodu" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Jaki_miod" Filterable="true" Title="Jaki_miod" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Korpusy" Filterable="true" Title="Korpusy" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Ramki" Filterable="true" Title="Ramki" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Ramki_z_miodem" Filterable="true" Title="Ramki_z_miodem" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Ramki_z_czerwiem" Filterable="true" Title="Ramki_z_czerwiem" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Ramki_z_pierzgą" Filterable="true" Title="Ramki_z_pierzgą" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Ramki_z_węzą" Filterable="true" Title="Ramki_z_węzą" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Matka" Filterable="true" Title="Matka" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Mateczniki" Filterable="true" Title="Mateczniki" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Jajeczka" Filterable="true" Title="Jajeczka" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Czerw_otwarty" Filterable="true" Title="ICzerw_otwartyD" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Czerw_zasklepiony" Filterable="true" Title="Czerw_zasklepiony" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Czerw_trutowy" Filterable="true" Title="Czerw_trutowy" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Nakrop" Filterable="true" Title="Nakrop" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Miód_zasklepiony" Filterable="true" Title="Miód_zasklepiony" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Pierzga" Filterable="true" Title="Pierzga" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Sila" Filterable="true" Title="Sila" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Przeglad" Property="Agresja" Filterable="true" Title="Agresja" Frozen="false" Width="170px" TextAlign="TextAlign.Center" />
+        </Columns>
+    </RadzenDataGrid>
 
 <MatDialog @bind-IsOpen=@IsOpen>
-    <MatDialogTitle>Sukces</MatDialogTitle>
+    <MatDialogTitle>Notatka z przeglądu</MatDialogTitle>
     <MatDialogContent>
-        <MudText>Udało się pomyślnie utworzyć Ul</MudText>
+        <div class="d-flex align-center justify-space-between mt-6">
+        <MudText>Data PRZEGLĄDU</MudText>
+        <MudText>Wybierz ul lub pasiekę</MudText>
+        </div>
+
+        <div class="d-flex align-center justify-space-between mt-6">
+            <RadzenDatePicker TValue="DateTime?" Value="@data_zadania" ShowTime="true" ShowSeconds="true" HoursStep="1.5" MinutesStep="5" SecondsStep="10" Change=@(args => OnChange(args, "DatePicker with time", "MM/dd/yyyy HH:mm")) DateFormat="MM/dd/yyyy HH:mm" InitialViewDate="@DateTime.Now" Class="w-100"></RadzenDatePicker>
+            <RadzenDropDown Style="width: 238px" Placeholder="Wybierz ul lub pasiekę" Data="@items" TValue="string" TextProperty="Wybierz ul lub pasiekę"></RadzenDropDown>
+        </div>
+
+        <div class="d-flex align-center justify-space-between mt-6">
+            <MudToggleIconButton @bind-Toggled="@Matka"
+             Icon="@Icons.Material.Filled.ToggleOn" ToggledSize="@MudBlazor.Size.Large" Color="@Color.Error" Title="Off"
+             ToggledIcon="@Icons.Material.Filled.ToggleOff" ToggledColor="@Color.Success" ToggledTitle="On" Size="@MudBlazor.Size.Large"/>
+             <span>@(Matka ? "Matka obecna" : "Matka nie obecna")</span>
+
+            <MudToggleIconButton @bind-Toggled="@Mateczniki"
+             Icon="@Icons.Material.Filled.ToggleOn" ToggledSize="@MudBlazor.Size.Large" Color="@Color.Error" Title="Off"
+             ToggledIcon="@Icons.Material.Filled.ToggleOff" ToggledColor="@Color.Success" ToggledTitle="On" Size="@MudBlazor.Size.Large"/>
+             <span>@(Mateczniki ? "Mateczniki obecne" : "Mateczniki nie obecne")</span>
+
+            <MudToggleIconButton @bind-Toggled="@Jajeczka"
+             Icon="@Icons.Material.Filled.ToggleOn" ToggledSize="@MudBlazor.Size.Large" Color="@Color.Error" Title="Off"
+             ToggledIcon="@Icons.Material.Filled.ToggleOff" ToggledColor="@Color.Success" ToggledTitle="On" Size="@MudBlazor.Size.Large"/>
+             <span>@(Jajeczka ? "Jajeczka obecne" : "Jajeczka nie obecne")</span>
+        </div>
+        <div class="d-flex align-center justify-space-between mt-6">
+            <MudToggleIconButton @bind-Toggled="@Czerw_otwarty"
+             Icon="@Icons.Material.Filled.ToggleOn" ToggledSize="@MudBlazor.Size.Large" Color="@Color.Error" Title="Off"
+             ToggledIcon="@Icons.Material.Filled.ToggleOff" ToggledColor="@Color.Success" ToggledTitle="On" Size="@MudBlazor.Size.Large"/>
+             <span>@(Czerw_otwarty ? "Czerw otwarty obecny" : "Czerw otwarty nie obecny")</span>
+
+             <MudToggleIconButton @bind-Toggled="@Czerw_zasklepiony"
+             Icon="@Icons.Material.Filled.ToggleOn" ToggledSize="@MudBlazor.Size.Large" Color="@Color.Error" Title="Off"
+             ToggledIcon="@Icons.Material.Filled.ToggleOff" ToggledColor="@Color.Success" ToggledTitle="On" Size="@MudBlazor.Size.Large"/>
+             <span>@(Czerw_zasklepiony ? "Czerw zasklepiony obecny" : "Czerw zasklepiony nie obecny")</span>
+
+             <MudToggleIconButton @bind-Toggled="@Czerw_trutowy"
+             Icon="@Icons.Material.Filled.ToggleOn" ToggledSize="@MudBlazor.Size.Large" Color="@Color.Error" Title="Off"
+             ToggledIcon="@Icons.Material.Filled.ToggleOff" ToggledColor="@Color.Success" ToggledTitle="On" Size="@MudBlazor.Size.Large"/>
+             <span>@(Czerw_trutowy ? "Czerw trutowy obecny" : "Czerw trutowy obecny")</span>
+        </div>
+        <div class="d-flex align-center justify-space-between mt-6">
+             <MudToggleIconButton @bind-Toggled="@Nakrop"
+             Icon="@Icons.Material.Filled.ToggleOn" ToggledSize="@MudBlazor.Size.Large" Color="@Color.Error" Title="Off"
+             ToggledIcon="@Icons.Material.Filled.ToggleOff" ToggledColor="@Color.Success" ToggledTitle="On" Size="@MudBlazor.Size.Large"/>
+             <span>@(Nakrop ? "Nakrop obecny" : "Nakrop nie obecny")</span>
+
+             <MudToggleIconButton @bind-Toggled="@Miód_zasklepiony"
+             Icon="@Icons.Material.Filled.ToggleOn" ToggledSize="@MudBlazor.Size.Large" Color="@Color.Error" Title="Off"
+             ToggledIcon="@Icons.Material.Filled.ToggleOff" ToggledColor="@Color.Success" ToggledTitle="On" Size="@MudBlazor.Size.Large"/>
+             <span>@(Miód_zasklepiony ? "Miód zasklepiony obecny" : "Miód zasklepiony nie obecny")</span>
+
+             <MudToggleIconButton @bind-Toggled="@Pierzga"
+             Icon="@Icons.Material.Filled.ToggleOn" ToggledSize="@MudBlazor.Size.Large" Color="@Color.Error" Title="Off"
+             ToggledIcon="@Icons.Material.Filled.ToggleOff" ToggledColor="@Color.Success" ToggledTitle="On" Size="@MudBlazor.Size.Large"/>
+             <span>@(Pierzga ? "Pierzga obecna" : "Pierzga nie obecna")</span>
+        </div>
+
+        <div class="d-flex align-center justify-space-between mt-6">
+            <span>Zachowanie @Agresja</span>
+            <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                <MudButton OnClick="() => SetAgresja(0)">Spokojne</MudButton>
+                <MudButton OnClick="() => SetAgresja(1)">Nerwowe</MudButton>
+                <MudButton OnClick="() => SetAgresja(2)">Agresywne</MudButton>
+            </MudButtonGroup>
+        </div>
+
+        <div class="d-flex align-center justify-space-between mt-6">
+            <span>Siła rodziny: @Sila</span>
+            <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled" data-bind="">
+                <MudButton OnClick="() => SetSila(0)">Słaba</MudButton>
+                <MudButton OnClick="() => SetSila(1)">Średnia</MudButton>
+                <MudButton OnClick="() => SetSila(2)">Silna</MudButton>
+            </MudButtonGroup>
+        </div>
+        <MudText>Wybierz ilość</MudText>
+        <div class="d-flex align-center justify-space-between mt-6">
+            <MudNumericField @bind-Value="Ramki" Label="Ramki" Variant="Variant.Outlined" Min="0" />
+            <MudNumericField @bind-Value="Korpusy" Label="Korpusy" Variant="Variant.Outlined" Min="0" />
+            <MudNumericField @bind-Value="Ramki_z_miodem" Label="Ramki z miodem" Variant="Variant.Outlined" Min="0" />
+        </div>
+
+        <div class="d-flex align-center justify-space-between mt-6">
+            <MudNumericField @bind-Value="Ramki_z_czerwiem" Label="Ramki z czerwiem" Variant="Variant.Outlined" Min="0" />
+            <MudNumericField @bind-Value="Ramki_z_pierzgą" Label="Ramki z pierzgą" Variant="Variant.Outlined" Min="0" />
+            <MudNumericField @bind-Value="Ramki_z_węzą" Label="Ramki z węzą" Variant="Variant.Outlined" Min="0" />
+        </div>
+
+        <MudText>Miodobranie</MudText>
+        <div class="d-flex align-center justify-space-between mt-6">
+            <MudNumericField @bind-Value="Ile_ramek_miod" Label="Wykręcone ramki" Variant="Variant.Outlined" Min="0"/>
+            <MudNumericField @bind-Value="Ile_miodu" Label="Pozyskany miód" Variant="Variant.Outlined" Min="0" />
+            <MudTextField @bind-Value="Jaki_miod" Label="Rodzaj miodu" Variant="Variant.Outlined" />
+        </div>
     </MatDialogContent>
     <MatDialogActions>
         <MatButton OnClick="@OKClick">Ok</MatButton>
     </MatDialogActions>
 </MatDialog>
+
+<div style="display: flex; justify-content: flex-end; position:fixed; bottom: 0; right: 0; margin-bottom: 30px; margin-right: 30px">
+    <MudFab Color="Color.Info" StartIcon="@Icons.Material.Filled.Refresh" Style="align-content:center" OnClick="Load" />
+    <MudFab Color="Color.Info" StartIcon="@Icons.Material.Filled.Add" Style="align-content:center" OnClick="OpenNewOverview" />
+</div>
+
+<MatDialog @bind-IsOpen=@IsOpen1>
+    <MatDialogTitle>Sukces</MatDialogTitle>
+    <MatDialogContent>
+        <MudText>Udało się pomyślnie dodać przegląd</MudText>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@OKClick1">Ok</MatButton>
+    </MatDialogActions>
+</MatDialog>
 @code {
+    public int Ile_ramek_miod { get; set; }
+    public int Ile_miodu { get; set; }
+    public string Jaki_miod { get; set; }
+    public int Korpusy { get; set; }
+    public int Ramki { get; set; }
+    public int Ramki_z_miodem { get; set; }
+    public int Ramki_z_czerwiem { get; set; }
+    public int Ramki_z_pierzgą { get; set; }
+    public int Ramki_z_węzą { get; set; }
+    public bool Matka { get; set; }
+    public bool Mateczniki { get; set; }
+    public bool Jajeczka { get; set; }
+    public bool Czerw_otwarty { get; set; }
+    public bool Czerw_zasklepiony { get; set; }
+    public bool Czerw_trutowy { get; set; }
+    public bool Nakrop { get; set; }
+    public bool Miód_zasklepiony { get; set; }
+    public bool Pierzga { get; set; }
+    public string Sila { get; set; }
+    public string Agresja { get; set; }
     public bool IsOpen { get; set; } = false;
-    private void OKClick()
+    public bool IsOpen1 { get; set; } = false;
+    List<string> items = new();
+    public DateTime? data_zadania { get; set; } = DateTime.Now;
+    List<Przeglad> elements = new();
+    private IEnumerable<string> Elements = new List<string>();
+    public DataTable dt = new();
+    public RadzenDataGrid<Przeglad> datagrid;
+    protected override async Task OnInitializedAsync()
+    {
+        var k = await localStorage.KeysAsync();
+        foreach (var item in k)
+        {
+            if (item.Contains("Pasieka"))
+            {
+                items.Add(item.Replace("Pasieka","Pasieka "));
+                continue;
+            }
+            if (item.Contains("Ul"))
+            {
+                items.Add(item.Replace("Ul","Ul "));
+                continue;
+            }
+            if (item.Contains("Przeglad"))
+            {
+                string t = await localStorage.GetItemAsync<string>(item);
+                Przeglad temp = JsonConvert.DeserializeObject<Przeglad>(t);
+                elements.Add(temp);
+            }
+        }
+    }
+    private async Task Load()
+    {
+        elements.Clear();
+        var k = await localStorage.KeysAsync();
+        foreach (var item in k)
+        {
+            if (item.Contains("Przeglad"))
+            {
+                string t = await localStorage.GetItemAsync<string>(item);
+                Przeglad temp = JsonConvert.DeserializeObject<Przeglad>(t);
+                elements.Add(temp);
+            }
+        }
+
+        //await datagrid.Reload();
+        this.StateHasChanged();
+        datagrid.Reload();
+    }
+    private async Task OKClick()
     {
         IsOpen = false;
 
-        //Tu dodam przegląd
+        Przeglad newprzeglad = new(data_zadania, Ile_ramek_miod, Ile_miodu, Jaki_miod, Korpusy, Ramki, Ramki_z_miodem, Ramki_z_czerwiem,
+        Ramki_z_pierzgą, Ramki_z_węzą, Matka, Mateczniki, Jajeczka, Czerw_otwarty, Czerw_zasklepiony, Czerw_trutowy, Nakrop, Miód_zasklepiony,
+        Pierzga, Sila, Agresja);
+
+        string json = newprzeglad.JsonSerialize();
+
+        await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString() + "Przeglad"), json);
+
+        IsOpen1 = true;
+    }
+    private void OKClick1()
+    {
+        IsOpen1 = false;
+    }
+    private void OpenNewOverview()
+    {
+        IsOpen = true;
+
+    }
+    void OnChange(DateTime? value, string name, string format)
+    {
+        data_zadania = value;
+    }
+
+    private void SetAgresja(int id)
+    {
+        switch (id)
+        {
+            case 0: Agresja = "Spokojne";
+                break;
+            case 1:
+                Agresja = "Nerwowe";
+                break;
+            case 2:
+                Agresja = "Agresywne";
+                break;
+        }
+    }
+
+    private void SetSila(int id)
+    {
+        switch (id)
+        {
+            case 0: Sila = "Słaba";
+                break;
+            case 1:
+                Sila = "Średnia";
+                break;
+            case 2:
+                Sila = "Silna";
+                break;
+        }
     }
 }
