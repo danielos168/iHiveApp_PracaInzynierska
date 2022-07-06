@@ -1,25 +1,60 @@
 ﻿@page "/"
+@inject NavigationManager NavigationManager
+
 <br>
 <br>
 <MudGrid Spacing="@spacing" Justify="Justify.Center">
     <MudItem>
-        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" Elevation="4" Height="280px" Width="320px" >
+        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" Elevation="4" Height="260px" Width="260px" @onclick="@OpenMap">
+             <MudImage Src="images/map.gif" Width="192" Height="192" Alt="Swedish Farm House" Elevation="25" Class="rounded-lg ma-4"/>
+             <MudText Typo="Typo.h5">Mapy</MudText>
         </MudPaper>
     </MudItem>
     <MudItem>
-        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" Elevation="4" Height="280px" Width="320px" />
+        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" Elevation="4" Height="260px" Width="260px" @onclick="@OpenPlaner">
+             <MudImage Src="images/planner.gif" Width="192" Height="192" Alt="Swedish Farm House" Elevation="25" Class="rounded-lg ma-4"/>
+             <MudText Typo="Typo.h5">Planer</MudText>
+        </MudPaper>
     </MudItem>
     <MudItem>
-        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" Elevation="4" Height="280px" Width="320px" />
+        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" Elevation="4" Height="260px" Width="260px" @onclick="@OpenApiary" >
+             <MudImage Src="images/beee.gif" Width="192" Height="192" Alt="Swedish Farm House" Elevation="25" Class="rounded-lg ma-4"/>
+             <MudText Typo="Typo.h5">Pasieka</MudText>
+        </MudPaper>
     </MudItem>
     <MudItem>
-        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" Elevation="4" Height="280px" Width="320px" />
+        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" Elevation="4" Height="260px" Width="260px" @onclick="@OpenTasks">
+             <MudImage Src="images/todo.gif" Width="192" Height="192" Alt="Swedish Farm House" Elevation="25" Class="rounded-lg ma-4"/>
+             <MudText Typo="Typo.h5">Zadania</MudText>
+        </MudPaper>
     </MudItem>
     <MudItem>
-        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" Elevation="4" Height="280px" Width="320px" />
+        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-8" Elevation="4" Height="260px" Width="260px" @onclick="@OpenOverview">
+             <MudImage Src="images/overview.gif" Width="192" Height="192" Alt="Swedish Farm House" Elevation="25" Class="rounded-lg ma-4"/>
+             <MudText Typo="Typo.h5">Przegląd</MudText>
+        </MudPaper>
     </MudItem>
 </MudGrid>
 @code{
     int spacing { get; set; } = 5;
-    
+    private void OpenPlaner()
+    {
+        NavigationManager.NavigateTo("/Planner");
+    }
+    private void OpenMap()
+    {
+        NavigationManager.NavigateTo("/Map");
+    }
+    private void OpenApiary()
+    {
+        NavigationManager.NavigateTo("/Apiary");
+    }
+    private void OpenTasks()
+    {
+        NavigationManager.NavigateTo("/Tasks");
+    }
+    private void OpenOverview()
+    {
+        NavigationManager.NavigateTo("/Overview");
+    }
 }

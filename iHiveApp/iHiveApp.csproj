@@ -9,9 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\bee.png" />
+    <Content Remove="wwwroot\images\beee.gif" />
+    <Content Remove="wwwroot\images\map.gif" />
+    <Content Remove="wwwroot\images\overview.gif" />
+    <Content Remove="wwwroot\images\planner.gif" />
     <Content Remove="wwwroot\images\task3.jpg" />
     <Content Remove="wwwroot\images\task4.jpg" />
     <Content Remove="wwwroot\images\task5.jpg" />
+    <Content Remove="wwwroot\images\todo.gif" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,9 +41,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="wwwroot\images\bee.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="wwwroot\images\beee.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="wwwroot\images\map.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="wwwroot\images\overview.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="wwwroot\images\planner.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="wwwroot\images\task3.jpg" />
     <Resource Include="wwwroot\images\task4.jpg" />
     <Resource Include="wwwroot\images\task5.jpg" />
+    <Resource Include="wwwroot\images\todo.gif" />
   </ItemGroup>
 
 </Project>
