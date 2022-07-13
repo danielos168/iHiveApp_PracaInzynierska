@@ -15,5 +15,4 @@ builder.Services.AddScoped<Radzen.DialogService>();
 builder.Services.AddScoped<Radzen.NotificationService>();
 builder.Services.AddMatBlazor();
 builder.Services.AddBlazoredLocalStorage();
-
 await builder.Build().RunAsync();

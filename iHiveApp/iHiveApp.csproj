@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
 	<RunAOTCompilation>true</RunAOTCompilation>
@@ -13,7 +13,7 @@
     <Content Remove="wwwroot\images\beee.gif" />
     <Content Remove="wwwroot\images\map.gif" />
     <Content Remove="wwwroot\images\overview.gif" />
-    <Content Remove="wwwroot\images\planner.gif" />
+    <Content Remove="wwwroot\images\planner.gif" /> 
     <Content Remove="wwwroot\images\task3.jpg" />
     <Content Remove="wwwroot\images\task4.jpg" />
     <Content Remove="wwwroot\images\task5.jpg" />
@@ -21,15 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
-    <PackageReference Include="MatBlazor" Version="2.8.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.3.0-preview.1" />
+    <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.5" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Sdk.BlazorWebAssembly.AOT" Version="6.0.0-preview.5.21301.17" />
-    <PackageReference Include="MudBlazor" Version="6.0.10" />
+    <PackageReference Include="MudBlazor" Version="6.0.11" />
     <PackageReference Include="MudBlazor.ThemeManager" Version="1.0.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Radzen.Blazor" Version="3.18.14" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
+    <PackageReference Include="Radzen.Blazor" Version="3.19.4" />
   </ItemGroup>
 
   <ItemGroup>

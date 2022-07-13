@@ -132,7 +132,7 @@
             string json = zadanie.JsonSerialize();
             await localStorage.SetItemAsync<string>(String.Format(data_zadania.ToString()+"Zadanie" + "Miodobranie"), json);
         }
-        else
+        else if (pasieka is not null)
         {
             Zadanie zadanie = new(data_zadania, pasieka, "Miodobranie"); 
             string json = zadanie.JsonSerialize();

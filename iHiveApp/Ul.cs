@@ -22,7 +22,8 @@ namespace iHiveApp
             this.Nazwa = Nazwa;
             this.Kolor_ula = Kolor_ula;
         }
-        public Ul(string Nazwa, string Kolor_ula, int Ilosc_ramek, string Rasa_pszczol, DateTime Data_zalozenia, DateTime Ostatni_przeglad, DateTime Ostatnia_wymiana_matki, string Kolor_matki, string Opis)
+        public Ul(string Nazwa, string Kolor_ula, int Ilosc_ramek, string Rasa_pszczol, DateTime Data_zalozenia, DateTime Ostatni_przeglad,
+                  DateTime Ostatnia_wymiana_matki, string Kolor_matki, string Opis)
         {
             this.Nazwa = Nazwa;
             this.Kolor_ula = Kolor_ula;
